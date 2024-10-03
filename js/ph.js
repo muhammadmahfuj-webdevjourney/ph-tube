@@ -57,15 +57,32 @@ const displayVideos = (videos) => {
     const card = document.createElement("div");
     card.classList = "card card-compact";
     card.innerHTML = `
-        <figure>
-            <img 
-                src=${video.thumbnail} />
+        <figure class="h-[250px] relative">
+            <img
+                src=${video.thumbnail}
+                class="w-full h-full object-cover"/>
+            <span class="absolute text-white bg-black rounded-lg right-2 bottom-2 px-2 py-1">
+              ${video.others.posted_date}
+            </span>
         </figure>
-        <div class="card-body">
-            <h2 class="card-title">${video.title}</h2>
-            <p>${video.description}</p>
-            <div class="card-actions justify-end">
-                <button class="btn btn-primary">Buy Now</button>
+        <div class="px-0 py-3 flex gap-3">
+            <div>
+              <img 
+                src=${video.authors[0].profile_picture}
+                class="w-10 h-10 rounded-full object-cover"
+              />
+            </div>
+            <div>
+              <h2 class="font-bold">${video.title}</h2>
+              <div class="flex items-center gap-2">
+                <p class="text-gray-400">${video.authors[0].profile_name}</p>
+                ${
+                  video.authors[0].verified == true
+                    ? `<img class="w-5" src="https://img.icons8.com/?size=48&id=D9RtvkuOe31p&format=png" />`
+                    : ""
+                } 
+              </div>
+              <p></p>
             </div>
         </div>
       `;

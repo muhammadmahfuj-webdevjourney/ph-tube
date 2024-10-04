@@ -75,15 +75,13 @@ const getTimeString = (time) => {
   // if (remainingSecond > 0 || timeString === "")
   //   timeString += `${remainingSecond} second `;
 
-  timeString += year > 0 ? `${year} year ` : "";
-  timeString += month > 0 ? `${month} month ` : "";
-  timeString += day > 0 ? `${day} day ` : "";
-  timeString += hour > 0 ? `${hour} hour ` : "";
-  timeString += minute > 0 ? `${minute} minute ` : "";
+  timeString += year > 0 ? `${year} y ` : "";
+  timeString += month > 0 ? `${month} m ` : "";
+  timeString += day > 0 ? `${day} d ` : "";
+  timeString += hour > 0 ? `${hour} h ` : "";
+  timeString += minute > 0 ? `${minute} m ` : "";
   timeString +=
-    remainingSecond > 0 || timeString === ""
-      ? `${remainingSecond} second `
-      : "";
+    remainingSecond > 0 || timeString === "" ? `${remainingSecond} s ` : "";
 
   return timeString.trim() + " ago";
 };
@@ -113,6 +111,21 @@ const displayVideos = (videos) => {
   // Get a reference to the HTML element with the id "categories"
   const videoContainer = document.getElementById("videos");
   videoContainer.innerHTML = "";
+
+  if (videos.length == 0) {
+    videoContainer.classList.remove("grid");
+    videoContainer.innerHTML = `
+      <div class = "min-h-[500px] flex flex-col gap-5 justify-center items-center">
+        <img src = "./assets/Icon.png" />
+        <h2 class="text-center text-xl font-bold">No Content here in this Category</h2>
+      </div>
+    `;
+
+    return;
+  } else {
+    videoContainer.classList.add("grid");
+  }
+
   // Loop through each item in the categories array
   videos.forEach((video) => {
     console.log(video);
@@ -129,7 +142,7 @@ const displayVideos = (videos) => {
                 ${
                   video.others.posted_date?.length == 0
                     ? ""
-                    : `<span class="absolute text-white bg-black rounded-lg right-2 bottom-2 px-2 py-1">
+                    : `<span class="absolute text-white text-sm w-32 lg:w-fit bg-black rounded-lg right-2 bottom-2 px-2 py-1">
                           ${getTimeString(video.others.posted_date)}
                         </span>`
                 }

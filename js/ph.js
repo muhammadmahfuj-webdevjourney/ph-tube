@@ -34,6 +34,7 @@ const loadCatagoryVideos = (id) => {
 
     // When the JSON data is received, call the displayCategories function with the categories data
     .then((data) => {
+      removeActiveClass();
       const activeBtn = document.getElementById(`btn-${id}`);
       // console.log(activeBtn);
       activeBtn.classList.add("active");
@@ -90,6 +91,14 @@ const getTimeString = (time) => {
     remainingSecond > 0 || timeString === "" ? `${remainingSecond} s ` : "";
 
   return timeString.trim() + " ago";
+};
+
+const removeActiveClass = () => {
+  const buttons = document.getElementsByClassName("category-btn");
+
+  for (let btn of buttons) {
+    btn.classList.remove("active");
+  }
 };
 
 // Functionality

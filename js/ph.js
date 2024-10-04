@@ -27,6 +27,19 @@ const loadVideos = () => {
     .catch((error) => console.log(error));
 };
 
+const loadCatagoryVideos = (id) => {
+  // alert(id);
+  fetch(`https://openapi.programming-hero.com/api/phero-tube/category/${id}`)
+    // When the response is received, parse it as JSON
+    .then((res) => res.json())
+
+    // When the JSON data is received, call the displayCategories function with the categories data
+    .then((data) => displayVideos(data.category))
+
+    // If there's an error, log it to the console
+    .catch((error) => console.log(error));
+};
+
 const getTimeString = (time) => {
   // Time converted in seconds
   const secondsInYear = 31536000;
@@ -99,7 +112,7 @@ const demoCard = {
 const displayVideos = (videos) => {
   // Get a reference to the HTML element with the id "categories"
   const videoContainer = document.getElementById("videos");
-
+  videoContainer.innerHTML = "";
   // Loop through each item in the categories array
   videos.forEach((video) => {
     console.log(video);
@@ -111,16 +124,15 @@ const displayVideos = (videos) => {
         <figure class="h-[250px] relative">
             <img
                 src=${video.thumbnail}
-                class="w-full h-full object-cover"/>
+                class="w-full h-full object-cover"
+            />
                 ${
                   video.others.posted_date?.length == 0
                     ? ""
                     : `<span class="absolute text-white bg-black rounded-lg right-2 bottom-2 px-2 py-1">
-                       ${getTimeString(video.others.posted_date)}
-                    </span>`
+                          ${getTimeString(video.others.posted_date)}
+                        </span>`
                 }
-            
-              
         </figure>
         <div class="px-0 py-3 flex gap-3">
             <div>
@@ -161,16 +173,19 @@ const displayCategories = (categories) => {
   // Loop through each item in the categories array
   categories.forEach((item) => {
     // Create a new HTML button element
-    const button = document.createElement("button");
+    const buttonContainer = document.createElement("div");
 
-    // Add a class of "btn" to the button element
-    button.classList = "btn";
+    buttonContainer.innerHTML = `
+      <button onclick ="loadCatagoryVideos(${item.category_id})" class="btn">
+      ${item.category}
+      </button>
+    `;
 
     // Set the text content of the button element to the category name
-    button.innerText = item.category;
+    // button.innerText = item.category;
 
     // Append the button element to the categories container element
-    categoriesContainer.append(button);
+    categoriesContainer.append(buttonContainer);
   });
 };
 

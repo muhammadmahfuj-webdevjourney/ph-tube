@@ -1,3 +1,5 @@
+// Main Functions
+
 // Define a function called loadCategories that fetches categories from an API
 const loadCategories = () => {
   // Use the fetch API to make a GET request to the API endpoint
@@ -25,6 +27,56 @@ const loadVideos = () => {
     .catch((error) => console.log(error));
 };
 
+const getTimeString = (time) => {
+  // Time converted in seconds
+  const secondsInYear = 31536000;
+  const secondsInMonth = 2592000;
+  const secondsInDay = 86400;
+  const secondsInHour = 3600;
+  const secondsInMinute = 60;
+
+  // Calculate each time component based on remaining seconds
+  const year = parseInt(time / secondsInYear);
+  let remainingSecond = time % secondsInYear;
+
+  const month = parseInt(remainingSecond / secondsInMonth);
+  remainingSecond = remainingSecond % secondsInMonth;
+
+  const day = parseInt(remainingSecond / secondsInDay);
+  remainingSecond = remainingSecond % secondsInDay;
+
+  const hour = parseInt(remainingSecond / secondsInHour);
+  remainingSecond = remainingSecond % secondsInHour;
+
+  const minute = parseInt(remainingSecond / secondsInMinute);
+  remainingSecond = remainingSecond % secondsInMinute;
+
+  // Build the time string only with relevant parts
+  let timeString = "";
+
+  // if (year > 0) timeString += `${year} year `;
+  // if (month > 0) timeString += `${month} month `;
+  // if (day > 0) timeString += `${day} day `;
+  // if (hour > 0) timeString += `${hour} hour `;
+  // if (minute > 0) timeString += `${minute} minute `;
+  // if (remainingSecond > 0 || timeString === "")
+  //   timeString += `${remainingSecond} second `;
+
+  timeString += year > 0 ? `${year} year ` : "";
+  timeString += month > 0 ? `${month} month ` : "";
+  timeString += day > 0 ? `${day} day ` : "";
+  timeString += hour > 0 ? `${hour} hour ` : "";
+  timeString += minute > 0 ? `${minute} minute ` : "";
+  timeString +=
+    remainingSecond > 0 || timeString === ""
+      ? `${remainingSecond} second `
+      : "";
+
+  return timeString.trim() + " ago";
+};
+
+// Functionality
+
 const demoCard = {
   category_id: "1003",
   video_id: "aaae",
@@ -41,8 +93,7 @@ const demoCard = {
     views: "3.6K",
     posted_date: "15147",
   },
-  description:
-    "'Inside Amy Schumer' is a comedy show by the popular comedian Amy Schumer, blending sharp satire and unfiltered humor to tackle everyday issues and societal norms. With 3.6K views, the show promises a blend of hilarious sketches, thought-provoking stand-up, and candid interviews. It's a must-watch for fans of bold, edgy comedy.",
+  description: "'Inside Amy Schumer'",
 };
 
 const displayVideos = (videos) => {
@@ -61,9 +112,15 @@ const displayVideos = (videos) => {
             <img
                 src=${video.thumbnail}
                 class="w-full h-full object-cover"/>
-            <span class="absolute text-white bg-black rounded-lg right-2 bottom-2 px-2 py-1">
-              ${video.others.posted_date}
-            </span>
+                ${
+                  video.others.posted_date?.length == 0
+                    ? ""
+                    : `<span class="absolute text-white bg-black rounded-lg right-2 bottom-2 px-2 py-1">
+                       ${getTimeString(video.others.posted_date)}
+                    </span>`
+                }
+            
+              
         </figure>
         <div class="px-0 py-3 flex gap-3">
             <div>

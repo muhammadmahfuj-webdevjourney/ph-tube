@@ -1,5 +1,4 @@
 // Main Functions
-
 // Define a function called loadCategories that fetches categories from an API
 const loadCategories = () => {
   // Use the fetch API to make a GET request to the API endpoint
@@ -34,12 +33,17 @@ const loadCatagoryVideos = (id) => {
     .then((res) => res.json())
 
     // When the JSON data is received, call the displayCategories function with the categories data
-    .then((data) => displayVideos(data.category))
+    .then((data) => {
+      const activeBtn = document.getElementById(`btn-${id}`);
+      activeBtn.classList.add("active");
+      displayVideos(data.category);
+    })
 
     // If there's an error, log it to the console
     .catch((error) => console.log(error));
 };
 
+// displaying video upload time function
 const getTimeString = (time) => {
   // Time converted in seconds
   const secondsInYear = 31536000;
@@ -75,6 +79,7 @@ const getTimeString = (time) => {
   // if (remainingSecond > 0 || timeString === "")
   //   timeString += `${remainingSecond} second `;
 
+  // ternary conditional
   timeString += year > 0 ? `${year} y ` : "";
   timeString += month > 0 ? `${month} m ` : "";
   timeString += day > 0 ? `${day} d ` : "";
@@ -88,24 +93,24 @@ const getTimeString = (time) => {
 
 // Functionality
 
-const demoCard = {
-  category_id: "1003",
-  video_id: "aaae",
-  thumbnail: "https://i.ibb.co/Yc4p5gD/inside-amy.jpg",
-  title: "Inside Amy Schumer",
-  authors: [
-    {
-      profile_picture: "https://i.ibb.co/YD2mqH7/amy.jpg",
-      profile_name: "Amy Schumer",
-      verified: "",
-    },
-  ],
-  others: {
-    views: "3.6K",
-    posted_date: "15147",
-  },
-  description: "'Inside Amy Schumer'",
-};
+// const demoCard = {
+//   category_id: "1003",
+//   video_id: "aaae",
+//   thumbnail: "https://i.ibb.co/Yc4p5gD/inside-amy.jpg",
+//   title: "Inside Amy Schumer",
+//   authors: [
+//     {
+//       profile_picture: "https://i.ibb.co/YD2mqH7/amy.jpg",
+//       profile_name: "Amy Schumer",
+//       verified: "",
+//     },
+//   ],
+//   others: {
+//     views: "3.6K",
+//     posted_date: "15147",
+//   },
+//   description: "'Inside Amy Schumer'",
+// };
 
 const displayVideos = (videos) => {
   // Get a reference to the HTML element with the id "categories"
@@ -189,7 +194,7 @@ const displayCategories = (categories) => {
     const buttonContainer = document.createElement("div");
 
     buttonContainer.innerHTML = `
-      <button onclick ="loadCatagoryVideos(${item.category_id})" class="btn">
+      <button id="btn-${item.category_id}" class="btn category-btn" onclick ="loadCatagoryVideos(${item.category_id})">
       ${item.category}
       </button>
     `;

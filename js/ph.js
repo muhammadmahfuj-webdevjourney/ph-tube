@@ -35,6 +35,7 @@ const loadCatagoryVideos = (id) => {
     // When the JSON data is received, call the displayCategories function with the categories data
     .then((data) => {
       const activeBtn = document.getElementById(`btn-${id}`);
+      // console.log(activeBtn);
       activeBtn.classList.add("active");
       displayVideos(data.category);
     })
@@ -186,7 +187,7 @@ const displayCategories = (categories) => {
   const categoriesContainer = document.getElementById("categories");
 
   // Log the categories array to the console (for debugging purposes)
-  console.log(categories);
+  // console.log(categories);
 
   // Loop through each item in the categories array
   categories.forEach((item) => {
@@ -194,7 +195,7 @@ const displayCategories = (categories) => {
     const buttonContainer = document.createElement("div");
 
     buttonContainer.innerHTML = `
-      <button id="btn-${item.category_id}" class="btn category-btn" onclick ="loadCatagoryVideos(${item.category_id})">
+      <button id="btn-${item.category_id}" onclick ="loadCatagoryVideos(${item.category_id})"  class="btn category-btn" >
       ${item.category}
       </button>
     `;
